@@ -42,12 +42,20 @@ function buildCocktailCards(cocktaildata) {
       //console.log(cocktail[`strIngredient${i}`]);
       //console.log(cocktail[`strMeasure${i}`]);
       
-      if(cocktail[`strIngredient${i}`] == null || '') {
+      if(cocktail[`strIngredient${i}`] === "") {
+        delete cocktail[`strIngredient${i}`];
+      }
+      
+      if(cocktail[`strMeasure${i}`] === "") {
+        delete cocktail[`strMeasure${i}`];
+      }
+  
+      if(cocktail[`strIngredient${i}`] == null) {
         break;
       }
-
+  
       if(cocktail[`strMeasure${i}`] == null) {
-        cocktail[`strMeasure${i}`] = 'Add To Taste '
+        cocktail[`strMeasure${i}`] = 'Add To Taste'
       }
 
       // if(cocktail[`strMeasure${i}`] = "") {
@@ -90,16 +98,6 @@ function buildCocktailCards(cocktaildata) {
     cardInstructions.className = 'card-text instructions border border-light' + ` cocktail-${cocktail.idDrink}`;
     cardInstructions.innerText = cocktail.strInstructions;
  
-// //View Instructions
-// let instructionsButton = document.createElement('button');
-// instructionsButton.className = 'viewInstructions btn btn-info btn-block' + ` cocktail-${cocktail.idDrink}`;
-// instructionsButton.setAttribute("type", "button");
-// instructionsButton.setAttribute("name", `${cocktail.idDrink}`);
-// instructionsButton.setAttribute("value", `${cocktail.idDrink}`);
-// instructionsButton.innerText = 'View Instructions';
-
-
-
     //putting the card together
     cardBody.appendChild(cardTitle);
     card.appendChild(img);
@@ -114,13 +112,7 @@ function buildCocktailCards(cocktaildata) {
 
 };
 
-// const viewInstructions = document.querySelectorAll('.viewInstructions');
-// console.log(viewInstructions);
-// viewInstructions.addEventListener("click", instructions);
 
-// function instructions(){
-  
-// }
 
 const form = document.querySelector('.cocktailsearch');
 const formSubmit = document.querySelector('.formSubmit');
@@ -162,43 +154,71 @@ pickDrink = (searchResponse) => {
   displayDrink(searchResponse.drinks[randomDrinkValue])
 };
 
-displayDrink = (drink) => {
-  
-  
-  
+displayDrink = (drink) => { 
   //console.log(drink);
+  //remove last drink
 
-  //Display Drink Results
-  let media = document.createElement('div');
-  media.className = 'media';
+  while(resultcontainer.firstChild) {
+    resultcontainer.removeChild(resultcontainer.firstChild);
+  }
 
-  let mediaBody = document.createElement('div');
-  mediaBody.className = 'media-body';
-  mediaBody.style = "padding: 20px";
+  // while(section.firstChild){
+  //       section.removeChild(section.firstChild);
+  //   }
+  //Display Drink Results - in Horizonal Card 
+
+  let searchCardRow = document.createElement('div');
+  searchCardRow.className = 'row no-gutters';
+
+  let searchCard = document.createElement('div');
+  searchCard.className = 'card mb-3 border border-info';
+
+  let leftSide = document.createElement('div');
+  leftSide.className = 'col-md-4';
 
   let img = document.createElement('img');
+  //img.style = "display: inline-block";
   img.src = drink.strDrinkThumb;
-  img.style = "width: 300px;"
-  img.className = "align-self-start mr-3";
+  img.className = 'card-img ';
   
-  let drinkTitle = document.createElement('h4');
-  drinkTitle.className="mt-0"
-  drinkTitle.innerHTML = `${drink.strDrink}`;
+  let rightSide = document.createElement('div');
+  rightSide.className = 'col-md-8';
 
-  let ingredients = document.createElement('ul');
-  
-  let instructions = document.createElement('p');
-  instructions.innerHTML = `${drink.strInstructions}`;
+  let cardBody = document.createElement('div');
+  cardBody.className = "card-body";
+
+  let cardTitle = document.createElement('h4');
+  cardTitle.className="card-title text-center";
+  cardTitle.innerHTML = `${drink.strDrink}`;
+
+  let cardIngredients = document.createElement('ul');
+  cardIngredients.className = "list-group list-group-flush";
+
+  let cardInstructions = document.createElement('p');
+  cardInstructions.innerHTML = `${drink.strInstructions}`;
+  cardInstructions.className = "card-text";
+  cardInstructions.style = "padding-left: 1.25em;"  
+  let specificIngredient;
 
   for(i = 1; i < 16; i++) {
+    
+    //Remove bad ingredients from API
+    if(drink[`strIngredient${i}`] === "") {
+      delete drink[`strIngredient${i}`];
+    }
+    
+    if(drink[`strMeasure${i}`] === "") {
+      delete drink[`strMeasure${i}`];
+    }
+    //Stop once all incredients are added
     if(drink[`strIngredient${i}`] == null) {
       break;
     }
-
+    //update copy if no details given
     if(drink[`strMeasure${i}`] == null) {
-      drink[`strMeasure${i}`] = 'Add To Taste '
+      drink[`strMeasure${i}`] = 'Add To Taste'
     }
-
+    //update parts to ounces when needed
     drink[`strMeasure${i}`] = drink[`strMeasure${i}`].replace("part", "Ounce");
     drink[`strMeasure${i}`] = drink[`strMeasure${i}`].replace("parts", "Ounces");
 
@@ -209,22 +229,24 @@ displayDrink = (drink) => {
     specificIngredient.className = 'list-group-item';
     specificIngredient.innerHTML = drink[`strIngredient${i}`] + ' - ' + drink[`strMeasure${i}`]; 
     
-    ingredients.appendChild(specificIngredient);
+    cardIngredients.appendChild(specificIngredient);
 
     //console.log(specificIngredient);
   }
 
-  media.appendChild(img);
-  mediaBody.appendChild(drinkTitle);
-  mediaBody.appendChild(instructions);
-  mediaBody.appendChild(ingredients);  
-  media.appendChild(mediaBody);
-  
+  searchCardRow.appendChild(leftSide);
+  searchCardRow.appendChild(rightSide);
+  leftSide.appendChild(img);
+  rightSide.appendChild(cardTitle);
+  rightSide.appendChild(cardInstructions);
+  rightSide.appendChild(cardIngredients);
+  searchCard.appendChild(searchCardRow);
 
-  // console.log(drink);
-  // console.log(media);
+  console.log(drink);
+  console.log(searchCardRow);
 
-  resultcontainer.appendChild(media);
-  resultcontainer.style = "padding: 20px 20px 20px 20px"
+  //resultcontainer.appendChild(media);
+  resultcontainer.appendChild(searchCardRow);
+  resultcontainer.style = "padding: 1.25em 1.25em 1.25em 1.25em "
   
 }
