@@ -118,6 +118,7 @@ const form = document.querySelector('.cocktailsearch');
 const formSubmit = document.querySelector('.formSubmit');
 const searchTerm = document.querySelector(`#searchTerm`);
 const resultcontainer = document.querySelector('.resultcontainer');
+const moody = document.querySelector('.moody');
 
 //Find a Custom Cocktail
 form.addEventListener('submit', findDrink);
@@ -140,6 +141,14 @@ function findDrink(e){
 pickDrink = (searchResponse) => {
   console.log(searchResponse.drinks);
 
+  if(searchResponse.drinks == null) {
+    moody.innerText = "No drinks found, try again."
+    moody.style = "color: red;"
+  } else {
+
+  moody.innerText = "Thanks for vising. Feel free to keep searching!"
+  moody.style = "color: #6c757d";
+  
   let max = searchResponse.drinks.length;
   let min = 0;
 
@@ -152,6 +161,7 @@ pickDrink = (searchResponse) => {
   console.log(searchResponse.drinks[randomDrinkValue]);
   
   displayDrink(searchResponse.drinks[randomDrinkValue])
+}
 };
 
 displayDrink = (drink) => { 
@@ -162,9 +172,6 @@ displayDrink = (drink) => {
     resultcontainer.removeChild(resultcontainer.firstChild);
   }
 
-  // while(section.firstChild){
-  //       section.removeChild(section.firstChild);
-  //   }
   //Display Drink Results - in Horizonal Card 
 
   let searchCardRow = document.createElement('div');
