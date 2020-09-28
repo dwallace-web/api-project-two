@@ -10,6 +10,15 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
   <title>TMF Cocktail Search</title>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123350711-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-123350711-2');
+  </script>
 </head>
 
 <body>
@@ -17,42 +26,40 @@
   <div class="jumbotron jumbrotron-fluid bg-info text-white">
     <div class="container">
       <h1 class="display-1">Cocktail Search</h1>
-      <p class="lead">Welcome to my cocktail search! You can find random cocktails to make or you can search for you own cocktail from a list of ingredients!</p>
+      <p class="lead">Welcome to my cocktail search! You can search for you own cocktail or make a random cocktail from the below selection!</p>
     </div>
   </div>
   <div class="container">
-    <!-- Show Nine Random Cocktails -->
+    <!-- Find a Unique Cocktail -->
     <div class="row">
-      <div class="col-lg mx-auto">
-        <div class="cocktailholder card-columns mx-auto">
-
-        </div>
-      </div>
-    </div>
-
-    
-    <!-- Find a Unique Cocktail
-    <div class="row ">
-      <div class="col-lg mx-auto">
+      <div class="col mx-auto">
         <div class="formcontainer">
-          <form action="" class="cocktailsearch">
-            Dropdown for ingredients
-
-            Button to submit 
-            <button type="submit" class="formSubmit">Get My Drink!</button>
+          <form class="cocktailsearch">
+            <!-- Dropdown for ingredients-->
+            <div class="form-group">
+              <label for="findDrink">Find a Drink</label>
+              <input type="text" name="searchTerm" id="searchTerm">
+              <small class="form-text text-muted">What are you in the mood for?</small>
+            </div>
+            <button type="submit" class="formSubmit btn btn-info btn-block ">Get My Drink!</button>
           </form>
         </div>
       </div>
     </div>
-    Area to Show the Unique Cocktail 
+    <!-- Area to Show the Unique Cocktail  -->
+    <div class="row resultcontainer">
+      
+    </div>
+    <!-- Show Nine Random Cocktails -->
     <div class="row">
-      <div class="col">
-        <div class="resultcontainer">
-
+      <div class="col-lg mx-auto">
+        <h1 class="text-center">Today's Drinks</h1>
+        <p>All cocktails display randomly. If you see a cocktail you like, screenshot it!</p>
+        <div class="cocktailholder card-columns mx-auto">
+          
         </div>
       </div>
-    </div> -->
-
+    </div>
   </div>
 
   <!-- Optional JavaScript -->
