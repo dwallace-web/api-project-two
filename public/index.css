@@ -1,6 +1,6 @@
-/* .cards {
-  display: inline-block;
-} */
 .formcontainer {
   display: block;
+}
+.moody {
+  padding-bottom: 2em;
 }

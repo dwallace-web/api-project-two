@@ -36,25 +36,25 @@ function buildCocktailCards(cocktaildata) {
 
     let cardIngredients = document.createElement('ul');
     cardIngredients.className = 'list-group list-group-flush';
-    //cardIngredients.innerText = `You will need: `
-    
-    for(i = 1; i < 16; i++) {
+
+
+    for (i = 1; i < 16; i++) {
       //console.log(cocktail[`strIngredient${i}`]);
       //console.log(cocktail[`strMeasure${i}`]);
-      
-      if(cocktail[`strIngredient${i}`] === "") {
+
+      if (cocktail[`strIngredient${i}`] === "") {
         delete cocktail[`strIngredient${i}`];
       }
-      
-      if(cocktail[`strMeasure${i}`] === "") {
+
+      if (cocktail[`strMeasure${i}`] === "") {
         delete cocktail[`strMeasure${i}`];
       }
-  
-      if(cocktail[`strIngredient${i}`] == null) {
+
+      if (cocktail[`strIngredient${i}`] == null) {
         break;
       }
-  
-      if(cocktail[`strMeasure${i}`] == null) {
+
+      if (cocktail[`strMeasure${i}`] == null) {
         cocktail[`strMeasure${i}`] = 'Add To Taste'
       }
 
@@ -66,11 +66,11 @@ function buildCocktailCards(cocktaildata) {
       cocktail[`strMeasure${i}`] = cocktail[`strMeasure${i}`].replace("parts", "Ounces");
 
       //console.log(cocktail[`strIngredient${i}`], cocktail[`strMeasure${i}`]);
-      
+
       let specificIngredient = document.createElement('li');
       specificIngredient.className = 'list-group-item';
-      specificIngredient.innerHTML = cocktail[`strIngredient${i}`] + ' - ' + cocktail[`strMeasure${i}`]; 
-      
+      specificIngredient.innerHTML = cocktail[`strIngredient${i}`] + ' - ' + cocktail[`strMeasure${i}`];
+
       cardIngredients.appendChild(specificIngredient);
 
       //console.log(specificIngredient);
@@ -97,12 +97,11 @@ function buildCocktailCards(cocktaildata) {
     let cardInstructions = document.createElement('p');
     cardInstructions.className = 'card-text instructions border border-light' + ` cocktail-${cocktail.idDrink}`;
     cardInstructions.innerText = cocktail.strInstructions;
- 
+
     //putting the card together
     cardBody.appendChild(cardTitle);
     card.appendChild(img);
     cardBody.appendChild(cardIngredients);
-// cardBody.appendChild(instructionsButton);
     cardBody.appendChild(cardInstructions);
     card.appendChild(cardBody);
 
@@ -123,52 +122,53 @@ const moody = document.querySelector('.moody');
 //Find a Custom Cocktail
 form.addEventListener('submit', findDrink);
 
-function findDrink(e){
+function findDrink(e) {
   console.log(e);
   e.preventDefault();
-  
+
   let searchURL = baseURL + key + searchFrag + searchQuery + `${searchTerm.value}`;
 
   console.log(searchURL);
-  
-  fetch(searchURL) 
+
+  fetch(searchURL)
     .then(searchResponse => searchResponse.json())
     .then(searchResponse => pickDrink(searchResponse))
     .catch(err => console.log(err)); //tryAgain()
 
-  };
+};
 
 pickDrink = (searchResponse) => {
   console.log(searchResponse.drinks);
 
-  if(searchResponse.drinks == null) {
+  if (searchResponse.drinks == null) {
     moody.innerText = "No drinks found, try again."
     moody.style = "color: red;"
   } else {
 
-  moody.innerText = "Thanks for vising. Feel free to keep searching!"
-  moody.style = "color: #6c757d";
-  
-  let max = searchResponse.drinks.length;
-  let min = 0;
+    moody.innerText = "Thanks for visiting. Feel free to keep searching!"
+    moody.style = "color: #6c757d";
 
-  let searchSelect = (min, max) =>  {
-    return Math.floor(Math.random() * (max - min) + min);
+    let max = searchResponse.drinks.length;
+    let min = 0;
+
+    let searchSelect = (min, max) => {
+      return Math.floor(Math.random() * (max - min) + min);
+    }
+
+    let randomDrinkValue = searchSelect(min, max);
+
+    console.log(searchResponse.drinks[randomDrinkValue]);
+
+    displayDrink(searchResponse.drinks[randomDrinkValue])
   }
-
-  let randomDrinkValue = searchSelect(min, max);
-
-  console.log(searchResponse.drinks[randomDrinkValue]);
-  
-  displayDrink(searchResponse.drinks[randomDrinkValue])
-}
 };
 
-displayDrink = (drink) => { 
+displayDrink = (drink) => {
   //console.log(drink);
+
   //remove last drink
 
-  while(resultcontainer.firstChild) {
+  while (resultcontainer.firstChild) {
     resultcontainer.removeChild(resultcontainer.firstChild);
   }
 
@@ -187,7 +187,7 @@ displayDrink = (drink) => {
   //img.style = "display: inline-block";
   img.src = drink.strDrinkThumb;
   img.className = 'card-img ';
-  
+
   let rightSide = document.createElement('div');
   rightSide.className = 'col-md-8';
 
@@ -195,7 +195,7 @@ displayDrink = (drink) => {
   cardBody.className = "card-body";
 
   let cardTitle = document.createElement('h4');
-  cardTitle.className="card-title text-center";
+  cardTitle.className = "card-title text-center";
   cardTitle.innerHTML = `${drink.strDrink}`;
 
   let cardIngredients = document.createElement('ul');
@@ -204,25 +204,25 @@ displayDrink = (drink) => {
   let cardInstructions = document.createElement('p');
   cardInstructions.innerHTML = `${drink.strInstructions}`;
   cardInstructions.className = "card-text";
-  cardInstructions.style = "padding-left: 1.25em;"  
+  cardInstructions.style = "padding-left: 1.25em;"
   let specificIngredient;
 
-  for(i = 1; i < 16; i++) {
-    
+  for (i = 1; i < 16; i++) {
+
     //Remove bad ingredients from API
-    if(drink[`strIngredient${i}`] === "") {
+    if (drink[`strIngredient${i}`] === "") {
       delete drink[`strIngredient${i}`];
     }
-    
-    if(drink[`strMeasure${i}`] === "") {
+
+    if (drink[`strMeasure${i}`] === "") {
       delete drink[`strMeasure${i}`];
     }
     //Stop once all incredients are added
-    if(drink[`strIngredient${i}`] == null) {
+    if (drink[`strIngredient${i}`] == null) {
       break;
     }
     //update copy if no details given
-    if(drink[`strMeasure${i}`] == null) {
+    if (drink[`strMeasure${i}`] == null) {
       drink[`strMeasure${i}`] = 'Add To Taste'
     }
     //update parts to ounces when needed
@@ -234,8 +234,8 @@ displayDrink = (drink) => {
 
     let specificIngredient = document.createElement('li');
     specificIngredient.className = 'list-group-item';
-    specificIngredient.innerHTML = drink[`strIngredient${i}`] + ' - ' + drink[`strMeasure${i}`]; 
-    
+    specificIngredient.innerHTML = drink[`strIngredient${i}`] + ' - ' + drink[`strMeasure${i}`];
+
     cardIngredients.appendChild(specificIngredient);
 
     //console.log(specificIngredient);
@@ -255,5 +255,5 @@ displayDrink = (drink) => {
   //resultcontainer.appendChild(media);
   resultcontainer.appendChild(searchCardRow);
   resultcontainer.style = "padding: 1.25em 1.25em 1.25em 1.25em "
-  
+
 }
