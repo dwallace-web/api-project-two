@@ -80,7 +80,7 @@ function buildCocktailCards(cocktaildata) {
 
     let card = document.createElement('div');
     card.className = 'card mb-4 border border-info';
-    card.style = 'width: 18rem;  margin: 1em;  padding: .3em; overflow: auto';
+    card.style = 'margin: 1em;  padding: .3em;';
 
     //building details within the card
     let img = document.createElement('img');
